@@ -1,6 +1,9 @@
 # Inverse-Curl
 Codes to calculate the inverse curl of a vector quantity
 
+Much more documentation is on the way, but for now, here 
+are the external software packages required to run our codes.
+
 To run the Cell-by-Cell Method, you will need:
 
 FFTW: http://www.fftw.org/
