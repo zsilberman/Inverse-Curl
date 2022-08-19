@@ -246,7 +246,7 @@ int main(int argc, char *argv[])
 
   //Set up the grid spacing
 
-  grid_setup(1);
+  grid_setup(test_flag);
 
 
   //Read in the magnetic field data.
