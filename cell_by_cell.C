@@ -2033,10 +2033,10 @@ void out_diffs (double* Bx,double* By,double* Bz,
       B = By0[byindex];
 
       axmmindex = k+(Nz+1)*(j+(Ny+1)*i);
-      axmpindex = k+(Nz+1)*((j+1)+(Ny+1)*i);
+      axmpindex = (k+1)+(Nz+1)*(j+(Ny+1)*i);
 
       azmmindex = k+(Nz)*(j+(Ny+1)*i);
-      azpmindex = (k+1)+(Nz)*(j+(Ny+1)*i);
+      azpmindex = k+(Nz)*(j+(Ny+1)*(i+1));
       
       Axmm = Ax[axmmindex];
       Axmp = Ax[axmpindex];
@@ -2063,10 +2063,10 @@ void out_diffs (double* Bx,double* By,double* Bz,
       B = By0[byindex];
 
       axmmindex = k+(Nz+1)*(j+(Ny+1)*i);
-      axmpindex = k+(Nz+1)*((j+1)+(Ny+1)*i);
+      axmpindex = (k+1)+(Nz+1)*(j+(Ny+1)*i);
 
       azmmindex = k+(Nz)*(j+(Ny+1)*i);
-      azpmindex = (k+1)+(Nz)*(j+(Ny+1)*i);
+      azpmindex = k+(Nz)*(j+(Ny+1)*(i+1));
       
       Axmm = Ax[axmmindex];
       Axmp = Ax[axmpindex];
@@ -2093,10 +2093,10 @@ void out_diffs (double* Bx,double* By,double* Bz,
       B = By0[byindex];
 
       axmmindex = k+(Nz+1)*(j+(Ny+1)*i);
-      axmpindex = k+(Nz+1)*((j+1)+(Ny+1)*i);
+      axmpindex = (k+1)+(Nz+1)*(j+(Ny+1)*i);
 
       azmmindex = k+(Nz)*(j+(Ny+1)*i);
-      azpmindex = (k+1)+(Nz)*(j+(Ny+1)*i);
+      azpmindex = k+(Nz)*(j+(Ny+1)*(i+1));
       
       Axmm = Ax[axmmindex];
       Axmp = Ax[axmpindex];
@@ -2123,10 +2123,10 @@ void out_diffs (double* Bx,double* By,double* Bz,
       B = Bz0[bzindex];
 
       axmmindex = k+(Nz+1)*(j+(Ny+1)*i);
-      axpmindex = (k+1)+(Nz+1)*(j+(Ny+1)*i);
+      axpmindex = k+(Nz+1)*((j+1)+(Ny+1)*i);
       
       aymmindex = k+(Nz+1)*(j+(Ny)*i);
-      aympindex = k+(Nz+1)*((j+1)+(Ny)*i);
+      aympindex = k+(Nz+1)*(j+(Ny)*(i+1));
 
       Axmm = Ax[axmmindex];
       Axpm = Ax[axpmindex];
@@ -2153,10 +2153,10 @@ void out_diffs (double* Bx,double* By,double* Bz,
       B = Bz0[bzindex];
 
       axmmindex = k+(Nz+1)*(j+(Ny+1)*i);
-      axpmindex = (k+1)+(Nz+1)*(j+(Ny+1)*i);
+      axpmindex = k+(Nz+1)*((j+1)+(Ny+1)*i);
       
       aymmindex = k+(Nz+1)*(j+(Ny)*i);
-      aympindex = k+(Nz+1)*((j+1)+(Ny)*i);
+      aympindex = k+(Nz+1)*(j+(Ny)*(i+1));
 
       Axmm = Ax[axmmindex];
       Axpm = Ax[axpmindex];
@@ -2183,10 +2183,10 @@ void out_diffs (double* Bx,double* By,double* Bz,
       B = Bz0[bzindex];
 
       axmmindex = k+(Nz+1)*(j+(Ny+1)*i);
-      axpmindex = (k+1)+(Nz+1)*(j+(Ny+1)*i);
+      axpmindex = k+(Nz+1)*((j+1)+(Ny+1)*i);
       
       aymmindex = k+(Nz+1)*(j+(Ny)*i);
-      aympindex = k+(Nz+1)*((j+1)+(Ny)*i);
+      aympindex = k+(Nz+1)*(j+(Ny)*(i+1));
 
       Axmm = Ax[axmmindex];
       Axpm = Ax[axpmindex];
