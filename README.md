@@ -1,5 +1,5 @@
 # Inverse-Curl
-Codes to calculate the inverse curl of a vector quantity, as described in Z.J. Silberman, et al., Numerical generation of vector potentials from specified magnetic fields, J. Comp. Phys. 379 (2019) 421-437, [https://doi.org/10.1016/j.jcp.2018.12.006]{https://doi.org/10.1016/j.jcp.2018.12.006}
+Codes to calculate the inverse curl of a vector quantity, as described in Z.J. Silberman, et al., Numerical generation of vector potentials from specified magnetic fields, J. Comp. Phys. 379 (2019) 421-437, [https://doi.org/10.1016/j.jcp.2018.12.006]
 
 cell_by_cell.C: builds the inverse curl by walking through the grid, creating the inverse curl as it goes
 
