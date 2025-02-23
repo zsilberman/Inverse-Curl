@@ -1,0 +1,137 @@
+This document describes the sizes of the various arrays used in the
+codes that calculate B->A.
+
+
+IllinoisGRMHD: 
+
+Nx, Ny, Nz are given by the user, either explicitly or by giving first 
+and last points and the stepsize. 
+Ng is the number of ghost points at the edges of the grid. Here
+we assume the numbers of ghost points are the same in each direction.
+
+Output A fields:
+Ax : (Nx+2*Ng-1)*(Ny+2*Ng-1)*(Nz+2*Ng-1)
+Ay : (Nx+2*Ng-1)*(Ny+2*Ng-1)*(Nz+2*Ng-1)
+Az : (Nx+2*Ng-1)*(Ny+2*Ng-1)*(Nz+2*Ng-1)
+
+Output B fields:
+Bx_stagger2 : (Nx+2*Ng-1)*(Ny+2*Ng-1)*(Nz+2*Ng-1)
+By_stagger2 : (Nx+2*Ng-1)*(Ny+2*Ng-1)*(Nz+2*Ng-1)
+Bz_stagger2 : (Nx+2*Ng-1)*(Ny+2*Ng-1)*(Nz+2*Ng-1)
+
+I will define:
+Nx_max = Nx+2*Ng-1
+Ny_max = Ny+2*Ng-1
+Nz_max = Nz+2*Ng-1
+
+
+Cell-by-Cell:
+
+This method treats ghost zones as being part of the grid, so it does
+not "know" about the above Nx, Ny, Nz, or Ng. It only "sees" Nx_max,
+Ny_max, and Nz_max.
+Many of the fields in this code are staggered to make the calculations
+easier and more intuitive.
+Ne is the number of extra points I extrapolate in the x-direction 
+to see what happens.
+Here we have omitted fields used for Fourier transforms and other
+derivative tests.
+
+B fields read in (not stored in Cell-by-Cell):
+Bx0 : (Nx_max)*(Ny_max)*(Nz_max)
+By0 : (Nx_max)*(Ny_max)*(Nz_max)
+Bz0 : (Nx_max)*(Ny_max)*(Nz_max)
+
+B fields after staggering:
+Bx : (Nx_max)*(Ny_max-1)*(Nz_max-1)
+By : (Nx_max-1)*(Ny_max)*(Nz_max-1)
+Bz : (Nx_max-1)*(Ny_max-1)*(Nz_max)
+
+Note: The staggering is achieved by ignoring the first point along the
+parallel direction (e.g. for Bx, ignoring any value for which both
+j=0 and k=0:
+Bx(i,j-1,k-1)=Bx0(i,j,k), j!=0 && k!=0,
+and similar for By and Bz).
+
+Staggered A fields:
+Ax : (Nx_max-1)*(Ny_max)*(Nz_max)
+Ay : (Nx_max)*(Ny_max-1)*(Nz_max)
+Az : (Nx_max)*(Ny_max)*(Nz_max-1)
+
+Note: These are the fields for which B=curl(A).
+
+Larger, "un-staggered" A fields for input to IllinoisGRMHD:
+Ax_ext : (Nx_max)*(Ny_max)*(Nz_max)
+Ay_ext : (Nx_max)*(Ny_max)*(Nz_max)
+Az_ext : (Nx_max)*(Ny_max)*(Nz_max)
+
+Note: The "un-staggering" is achieved by quadratically extrapolating 
+the first point along the parallel direction (e.g. for Ax: 
+Ax_ext(i,j,k)=Ax(i-1,j,k) for i!=0, and then
+Ax_ext(0,j,k)=3*Ax_ext(1,j,k)-3*Ax_ext(2,j,k)+1*Ax_ext(3,j,k), 
+and similar for Ay and Az).
+
+A fields for extrapolation tests:
+Ax_ext2    : (Nx_max+Ne)*(Ny_max)*(Nz_max)
+Ay_ext2    : (Nx_max+Ne)*(Ny_max)*(Nz_max)
+Az_ext2    : (Nx_max+Ne)*(Ny_max)*(Nz_max)
+
+Note: These fields are supposed to mimic those in IllinoisGRMHD; thus
+we need to perform linear extrapolation on the points that are actually
+ghost points. Following the method of IllinoisGRMHD, Ng points at
+each end of the grid along the x-direction are linearly extrapolated
+before the additional extrapolation of Ne points is performed.
+
+Same as above, but staggered by :
+Ax_ext3    : (Nx_max-1+Ne)*(Ny_max)*(Nz_max)
+Ay_ext3    : (Nx_max+Ne)*(Ny_max-1)*(Nz_max)
+Az_ext3    : (Nx_max+Ne)*(Ny_max)*(Nz_max-1)
+
+The larger, staggered B fields:
+Bx_ext3    : (Nx_max+Ne)*(Ny_max-1)*(Nz_max-1)
+By_ext3    : (Nx_max-1+Ne)*(Ny_max)*(Nz_max-1)
+Bz_ext3    : (Nx_max-1+Ne)*(Ny_max-1)*(Nz_max)
+
+Note: The above two sets of fields are related such that 
+B_ext3 = curl(A_ext3).
+
+The sizes of the fields in the Cell-by-Cell code do not quite look
+like this because in the Cell-by-Cell code:
+Nx = Nx_max-1
+Ny = Nx_max-1
+Nz = Nx_max-1
+
+
+Global Linear Algebra:
+
+This method also treats ghost zones as being part of the grid, so 
+it also only "knows about" Nx_max, Ny_max, and Nz_max.
+The A fields in this code are also assumed to be staggered.
+
+Number of rows in the matrix is the sum of the number of values
+in the three components of A:
+rows :  (Nx_max-1)*(Ny_max)*(Nz_max) [contribution from Ax]
+       +(Nx_max)*(Ny_max-1)*(Nz_max) [contribution from Ay]
+       +(Nx_max)*(Ny_max)*(Nz_max-1) [contribution from Az]
+
+Note: The A fields in the global linear algebra method are in
+effect the same size as in the Cell-by-Cell method, just all
+in one array.
+
+There are also individual A fields for output:
+Ax : (Nx_max)*(Ny_max)*(Nz_max)
+Ay : (Nx_max)*(Ny_max)*(Nz_max)
+Az : (Nx_max)*(Ny_max)*(Nz_max)
+
+Note: These are the same size as the output fields in the
+Cell-by-Cell method, as they must be.
+
+
+
+
+
+
+
+
+
+
